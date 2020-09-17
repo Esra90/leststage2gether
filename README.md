@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Let’Stage2gether  
+
+It’s a meeting application for music lovers. You can create events to jam with other users. And also you can join the events from the other users. 
+On your personal page, you can share information about yourself and your own music. Like your music videos or audios.  
 
 ## Available Scripts
 
