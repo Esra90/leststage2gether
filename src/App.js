@@ -3,29 +3,30 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 
 import Users from './user/pages/Users';
 import NewEvent from './musicEvents/pages/NewEvent';
+import UserEvents from './musicEvents/pages/UserEvents';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import './App.css';
 
 const App = () => {
   return (
-    <div className="App">
-      
         <Router>
           <MainNavigation />
-            <main>
-              <Switch>
-                <Route path="/" exact>
-                  <Users />
-                </Route> 
-                <Route path="/events/new">
-                  <NewEvent />
-                </Route>
-                <Redirect to="/" />
-              </Switch>
-            </main>
-        </Router>;
-      
-    </div>
+          <main>
+            <Switch>
+              <Route path="/" exact>
+                <Users />
+              </Route> 
+              <Route path="/:userId/events" exact>
+                <UserEvents />
+              </Route>
+              <Route path="/events/new">
+                <NewEvent />
+              </Route>
+              <Redirect to="/" />
+            </Switch>
+          </main>
+        </Router>
+    
   );
 }
 
