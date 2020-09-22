@@ -14,7 +14,7 @@ const ModalOverlay = props => {
             </header>
             <form
                 onSubmit={
-                // make sure if I'm render any buttons inside of that button, don't want to reload the page accidentally 
+                // make sure if I render any buttons inside of that button, don't want to reload the page accidentally 
                 props.onSubmit ? props.onSubmit : event => event.preventDefault()
                 }
             >
