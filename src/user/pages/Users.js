@@ -16,7 +16,7 @@ const Users = () => {
 
     return (
         <UsersList items={USERS}/>
-    )
+    );
 }
 
 export default Users;

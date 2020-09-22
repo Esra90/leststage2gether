@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react';
+import React from 'react';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
@@ -6,67 +6,36 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH
 } from '../../shared/util/validators';
-import './NewEvent.css';
+import { useForm } from '../../shared/hooks/form-hook';
+import './EventForm.css';
 
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case 'INPUT_CHANGE':
-      let formIsValid = true;
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-        // else you take the already stored value
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      }
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid }
-        },
-        isValid: formIsValid
-      };
-    default:
-      return state;
-  }
-};
 
 const NewEvent = () => {
-  const [formState, dispatch] = useReducer(formReducer, {
-    // is a nested object that stores information about the validity of the individual inputs
-    inputs: {
-      title: {
-        value: '',
-        isValid: false
-      },
-      description: {
-        value: '',
-        isValid: false
-      }
-    },
-    // stores the information wheter the overall form is valid
-    isValid: false
-  });
+    const [formState, inputHandler] = useForm(
+        {
+          title: {
+            value: '',
+            isValid: false
+          },
+          description: {
+            value: '',
+            isValid: false
+          },
+          address: {
+            value: '',
+            isValid: false
+          }
+        },
+        false
+      );
 
-  // To avoid the infinite loop use useCallback
-  const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type: 'INPUT_CHANGE',
-      value: value,
-      isValid: isValid,
-      inputId: id
-    });
-  }, []);
-
-  const placeSubmitHandler = event => {
+  const eventSubmitHandler = event => {
     event.preventDefault();
     console.log(formState.inputs); // send this to the backend!
   };
 
   return (
-    <form className="event-form" onSubmit={placeSubmitHandler}>
+    <form className="event-form" onSubmit={eventSubmitHandler}>
       <Input
         id="title"
         element="input"

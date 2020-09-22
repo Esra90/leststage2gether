@@ -1,11 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { 
+  BrowserRouter as Router, 
+  Route, 
+  Redirect, 
+  Switch 
+} from 'react-router-dom';
 
 import Users from './user/pages/Users';
 import NewEvent from './musicEvents/pages/NewEvent';
 import UserEvents from './musicEvents/pages/UserEvents';
+import UpdateEvent from './musicEvents/pages/UpdateEvent';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
-import './App.css';
+
 
 const App = () => {
   return (
@@ -19,8 +25,11 @@ const App = () => {
               <Route path="/:userId/events" exact>
                 <UserEvents />
               </Route>
-              <Route path="/events/new">
+              <Route path="/events/new" exact>
                 <NewEvent />
+              </Route>
+              <Route path="/events/:eventId">
+                <UpdateEvent />
               </Route>
               <Redirect to="/" />
             </Switch>

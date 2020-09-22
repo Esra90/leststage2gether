@@ -44,7 +44,7 @@ const EventItem = props => {
                     </div>
                     <div className="event-item__actions">
                         <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
-                        <Button tp={`/events/{props.id}`}>EDIT</Button>
+                        <Button to={`/events/${props.id}`}>EDIT</Button>
                         <Button danger>DELETE</Button>
                     </div>
                 </Card>
