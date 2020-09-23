@@ -1,5 +1,10 @@
 .event-item {
-    margin: 1rem 0;
+    margin: 0 auto;
+    width: 70%;
+  }
+
+  .event-item ul{
+    list-style: none;
   }
   
   .event-item__content {
@@ -50,7 +55,7 @@
   
 .map-container {
   height: 20rem;
-  width: 100%;
+  width: 300px;
 }
 
   @media (min-width: 768px) {

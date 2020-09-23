@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // import { Link } from 'react-router-dom';
 
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import Modal from '../../shared/components/UIElements/Modal';
+import { AuthContext } from '../../shared/context/auth-context';
 import './EventItem.css';
 
 
 // Output the list of events 
 const EventItem = props => {
+    const auth = useContext(AuthContext);
     // state for the map
     const [showMap, setShowMap] = useState(false);
 
@@ -39,8 +41,8 @@ const EventItem = props => {
             show={showMap}
             onCancel={closeMapHandler}
             header={props.address}
-            contentClass="place-item__modal-content"
-            footerClass="place-item__modal-actions"
+            contentClass="event-item__modal-content"
+            footerClass="event-item__modal-actions"
             footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
         >
             <div className="map-container">
@@ -83,10 +85,12 @@ const EventItem = props => {
                     </div>
                     <div className="event-item__actions">
                         <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
+                        {auth.isLoggedIn && (
                         <Button to={`/events/${props.id}`}>EDIT</Button>
-                        <Button danger onClick={showDeleteWarningHandler}>
-                            DELETE
-                        </Button>
+                        )}
+                        {auth.isLoggedIn && (
+                        <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
+                        )}
                     </div>
                 </Card>
             </li> 
