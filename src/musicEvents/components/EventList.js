@@ -27,14 +27,15 @@ const EventList = props => {
                 <EventItem 
                     key={event.id} 
                     id={event.id} 
-                    image={event.imageUrl} 
+                    image={event.image} 
                     title={event.title} 
                     description={event.description} 
-                    // address={event.address} 
-                    // datum={event.datum} 
+                    address={event.address} 
+                    datum={event.datum} 
                     time={event.time} 
                     creatorId={event.creator} 
-                    coordinates={event.location}   
+                    coordinates={event.location} 
+                    onDelete={props.onDeleteEvent}  
                 />
                 
             ))}

@@ -1,46 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import EventList from '../components/EventList';
 
-
-const DUMMY_EVENTS = [
-    {
-        id: 'p1',
-        title: 'PARK JAM',
-        description: `let's have fun!`,
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
-        address: '20 W 34th St, New York, NY 10001',
-        // datum: 22 `September`,
-        // time: 10 `pm`,
-        location: {
-          lat: 40.7484405,
-          lng: -73.9878584
-        },
-        creator: 'u1'
-      },
-      {
-        id: 'p2',
-        title: 'Home party',
-        description: `let's have fun!`,
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
-        address: '20 W 34th St, New York, NY 10001',
-        // datum: 22 `September`,
-        // time: 10 `pm`,
-        location: {
-          lat: 40.7484405,
-          lng: -73.9878584
-        },
-        creator: 'u2'
-      }
-]
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import { useHttpClient } from '../../shared/hooks/http-hook';
 
 const UserEvents = () => {
+
+    const [loadedEvents, setLoadedEvents] = useState();
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
     // This gives access to the userId that's encoded in the URL.
     const userId = useParams().userId;
+
     // Get the events with the userId
-    const loadedEvents = DUMMY_EVENTS.filter(event => event.creator === userId);
-    return <EventList items={loadedEvents} />;
+    useEffect(() => {
+      const fetchEvents = async () => {
+        try {
+          const responseData = await sendRequest(
+            `http://localhost:5000/api/events/user/${userId}`
+          );
+          setLoadedEvents(responseData.events);
+        } catch (err) {}
+      };
+      fetchEvents();
+    }, [sendRequest, userId]);
+
+    const eventDeletedHandler = deletedEventId => {
+      setLoadedEvents(prevEvents =>
+        prevEvents.filter(place => place.id !== deletedEventId)
+      );
+    };
+  
+
+    return (
+      <React.Fragment>
+        <ErrorModal error={error} onClear={clearError} />
+        {isLoading && (
+          <div className="center">
+            <LoadingSpinner />
+          </div>
+        )}
+        {!isLoading && loadedEvents && <EventList items={loadedEvents} onDeleteEvent={eventDeletedHandler} />}
+      </React.Fragment>
+    );
 };
 
 
