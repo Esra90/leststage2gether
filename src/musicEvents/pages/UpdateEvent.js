@@ -69,15 +69,16 @@ import './EventForm.css';
       event.preventDefault();
       try {
         await sendRequest(
-          `http://localhost:5000/api/events/${eventId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/${eventId}`,
           'PATCH',
           JSON.stringify({
             title: formState.inputs.title.value,
             description: formState.inputs.description.value
           }),
-          {
-            'Content-Type': 'application/json'
-          }
+        {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token
+        }
         );
         history.push('/' + auth.userId + '/events');
       } catch (err) {}

@@ -39,7 +39,11 @@ const EventItem = props => {
         try {
             await sendRequest(
               `http://localhost:5000/api/events/${props.id}`,
-              'DELETE'
+              'DELETE',
+              null,
+              {
+                Authorization: 'Bearer ' + auth.token
+              }
             );
             //update the page
             props.onDelete(props.id);
@@ -89,12 +93,12 @@ const EventItem = props => {
                 <Card className="event-item__content">
                 {isLoading && <LoadingSpinner asOverlay />}
                     <div className="event-item__image">
-                        <img src={props.image} alt={props.name} />
+                        <img src={`http://localhost:5000/${props.image}`} alt={props.name} />
                     </div>
                     <div className="event-item__info">
                         <h2>{props.title}</h2>
                         <h3>{props.address}</h3>
-                        {/* <h3>{props.datum} {props.time}</h3> */}
+                        <h3>{props.datum}</h3>
                         <p>{props.description}</p>
                     </div>
                     <div className="event-item__actions">
